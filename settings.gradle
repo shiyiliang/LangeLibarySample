@@ -1,3 +1,5 @@
-include ':app', ':baselibary'
+include ':app', ':baselibary',':volley'
+
+project(':volley').projectDir = new File('ThirdLibary/volley')
 
 
