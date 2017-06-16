@@ -19,13 +19,8 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.one)
     void one() {
-        System.out.println("onclick");
-        System.out.println(NetworkUtil.isNetworkAvailable(this));
-        System.out.println(NetworkUtil.isNetworkConnected(this));
-        System.out.println(NetworkUtil.getDataEnabled(this));
-        flag = !flag;
-        System.out.println(NetworkUtil.getWifiEnabled(this));
-        System.out.println(NetworkUtil.getNetworkType(this).name());
+
+
     }
 
     @Override
