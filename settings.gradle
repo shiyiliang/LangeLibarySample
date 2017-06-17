@@ -1,5 +1,7 @@
-include ':app', ':baselibary',':volley'
+include ':app', ':baselibary', ':volley', ':swipetoloadlayout', ':base-adapter-rv'
 
 project(':volley').projectDir = new File('ThirdLibary/volley')
+project(':base-adapter-rv').projectDir = new File('ThirdLibary/base-adapter-rv')
+project(':swipetoloadlayout').projectDir = new File('ThirdLibary/swipetoloadlayout')
 
 

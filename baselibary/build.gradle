@@ -31,7 +31,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':volley')
     compile 'org.greenrobot:eventbus:3.0.0'
-
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile project(':swipetoloadlayout')
+    compile project(':base-adapter-rv')
 }

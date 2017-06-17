@@ -1,26 +1,30 @@
 package shiyiliang.me.langelibarysample;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Network;
 
 import org.greenrobot.eventbus.EventBus;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import shiyiliang.me.baselibary.base.BaseActivity;
+import shiyiliang.me.baselibary.base.DefaultBaseActivity;
 import shiyiliang.me.baselibary.util.NetworkUtil;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends DefaultBaseActivity {
+    @BindView(R.id.two)
+    Button two;
 
-    boolean flag = false;
-
-    @OnClick(R.id.one)
-    void one() {
-
-
+    @OnClick(R.id.two)
+    void two() {
+        System.out.println(two.getText().toString());
+        startActivity(new Intent(mContext, SwipLayoutActivity.class));
     }
 
     @Override

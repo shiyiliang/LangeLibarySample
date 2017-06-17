@@ -32,7 +32,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action.equalsIgnoreCase(ANDROID_NET_CHANGE_ACTION)) {
             NetworkStatueEvent event = new NetworkStatueEvent();
-            if (NetworkUtil.isNetworkAvailable(context)) {
+            if (NetworkUtil.isConnectedByState(context)) {
                 event.setConnected(true);
             } else {
                 event.setConnected(false);

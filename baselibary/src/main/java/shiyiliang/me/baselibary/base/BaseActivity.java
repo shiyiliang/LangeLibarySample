@@ -1,5 +1,6 @@
 package shiyiliang.me.baselibary.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,19 +20,21 @@ import shiyiliang.me.baselibary.bean.NetworkStatueEvent;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+    protected Activity mContext;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutID());
-
-        init();
-
+        this.mContext = this;
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
 
+        //这里必须是在 ButterKnife.bind(this);后面调用，否则view的使用都是空
+        init();
+
     }
 
-    protected abstract void init();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void listenNetworkStatueChange(NetworkStatueEvent event) {
@@ -49,6 +52,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract int getLayoutID();
+
+    protected abstract void init();
 
     protected abstract void networkDisconnected();
 
