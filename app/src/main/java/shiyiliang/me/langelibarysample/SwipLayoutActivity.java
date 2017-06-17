@@ -12,12 +12,16 @@ import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
+
+import junit.framework.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import shiyiliang.me.baselibary.base.DefaultBaseActivity;
+import shiyiliang.me.langelibarysample.adapter.TestAdapter;
 
 public class SwipLayoutActivity extends DefaultBaseActivity {
     @BindView(R.id.swipe_target)
@@ -26,7 +30,7 @@ public class SwipLayoutActivity extends DefaultBaseActivity {
     SwipeToLoadLayout stllParent;
 
     List<String> mData = new ArrayList<>();
-    private CommonAdapter<String> adapter;
+    private TestAdapter adapter;
 
     @Override
     protected int getLayoutID() {
@@ -42,15 +46,14 @@ public class SwipLayoutActivity extends DefaultBaseActivity {
 
     private void initRecycleView() {
         LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        adapter = new CommonAdapter<String>(mContext, R.layout.test, mData) {
-            @Override
-            protected void convert(ViewHolder holder, String s, int position) {
-                TextView tvName = holder.getView(R.id.name);
-                tvName.setText(s);
-            }
-        };
+        adapter = new TestAdapter(mContext,R.layout.test,mData);
+        HeaderAndFooterWrapper wrapper=new HeaderAndFooterWrapper(adapter);
+        View headerView = LoaderViewManager.createHeaderView(mContext, LoaderViewManager.Type.ClassicStyle, stllParent);
+        View footerView = LoaderViewManager.createFooterView(mContext, LoaderViewManager.Type.GoogleStyle, stllParent);
+        wrapper.addHeaderView(headerView);
+        wrapper.addHeaderView(footerView);
         rvTest.setLayoutManager(lm);
-        rvTest.setAdapter(adapter);
+        rvTest.setAdapter(wrapper);
     }
 
     private void initSwipeToLayout() {
@@ -67,6 +70,8 @@ public class SwipLayoutActivity extends DefaultBaseActivity {
                     @Override
                     public void run() {
                         stllParent.setLoadingMore(false);
+                        mData.add(mData.size() + "more 数据");
+                        adapter.notifyItemInserted(mData.size()-1);
                         Toast.makeText(mContext, "上拉加载完成", Toast.LENGTH_LONG).show();
                     }
                 }, 3000);
