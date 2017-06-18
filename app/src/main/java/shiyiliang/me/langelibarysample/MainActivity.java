@@ -26,6 +26,10 @@ public class MainActivity extends DefaultBaseActivity {
         System.out.println(two.getText().toString());
         startActivity(new Intent(mContext, SwipLayoutActivity.class));
     }
+    @OnClick(R.id.three)
+    void three(){
+        startActivity(new Intent(mContext, PopupWindowActivity.class));
+    }
 
     @Override
     protected int getLayoutID() {

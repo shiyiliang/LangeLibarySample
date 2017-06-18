@@ -11,6 +11,7 @@ import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
 
@@ -46,12 +47,31 @@ public class SwipLayoutActivity extends DefaultBaseActivity {
 
     private void initRecycleView() {
         LinearLayoutManager lm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        adapter = new TestAdapter(mContext,R.layout.test,mData);
-        HeaderAndFooterWrapper wrapper=new HeaderAndFooterWrapper(adapter);
+        adapter = new TestAdapter(mContext, R.layout.test, mData);
+        HeaderAndFooterWrapper wrapper = new HeaderAndFooterWrapper(adapter);
         View headerView = LoaderViewManager.createHeaderView(mContext, LoaderViewManager.Type.ClassicStyle, stllParent);
         View footerView = LoaderViewManager.createFooterView(mContext, LoaderViewManager.Type.GoogleStyle, stllParent);
+        footerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "点击了头部", Toast.LENGTH_LONG).show();
+            }
+        });
         wrapper.addHeaderView(headerView);
         wrapper.addHeaderView(footerView);
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Toast.makeText(mContext, position+"", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Toast.makeText(mContext, "onItemLongClick-->"+position, Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
         rvTest.setLayoutManager(lm);
         rvTest.setAdapter(wrapper);
     }
@@ -71,7 +91,7 @@ public class SwipLayoutActivity extends DefaultBaseActivity {
                     public void run() {
                         stllParent.setLoadingMore(false);
                         mData.add(mData.size() + "more 数据");
-                        adapter.notifyItemInserted(mData.size()-1);
+                        adapter.notifyItemInserted(mData.size() - 1);
                         Toast.makeText(mContext, "上拉加载完成", Toast.LENGTH_LONG).show();
                     }
                 }, 3000);
