@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SwipLayoutActivity" />
-        <activity android:name=".PopupWindowActivity"></activity>
+        <activity android:name=".PopupWindowActivity" />
+        <activity android:name=".RetrofitActivity"></activity>
     </application>
 
 </manifest>

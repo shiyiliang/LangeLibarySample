@@ -30,6 +30,10 @@ public class MainActivity extends DefaultBaseActivity {
     void three(){
         startActivity(new Intent(mContext, PopupWindowActivity.class));
     }
+    @OnClick(R.id.four)
+    void four(){
+        startActivity(new Intent(mContext, RetrofitActivity.class));
+    }
 
     @Override
     protected int getLayoutID() {
