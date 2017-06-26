@@ -2,7 +2,7 @@ package com.example.smallhttp.download;
 
 import android.support.annotation.Nullable;
 
-import com.example.smallhttp.upload.ProgressCallBack;
+import com.example.smallhttp.upload.UploadProgressCallBack;
 
 import java.io.IOException;
 
@@ -13,7 +13,6 @@ import okio.BufferedSource;
 import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
-import okio.Timeout;
 
 /**
  * Author: shiyiliang
@@ -23,11 +22,11 @@ import okio.Timeout;
  */
 
 public class DownloadResponseBody extends ResponseBody {
-    private ProgressCallBack mProgressCallBack;
+    private UploadProgressCallBack mProgressCallBack;
     private ResponseBody originalResponseBody;
     private BufferedSource buffer;
 
-    public DownloadResponseBody(ResponseBody responseBody, ProgressCallBack callBack) {
+    public DownloadResponseBody(ResponseBody responseBody, UploadProgressCallBack callBack) {
         this.originalResponseBody = responseBody;
         this.mProgressCallBack = callBack;
     }

@@ -6,13 +6,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.MutableInt;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
 import com.example.smallhttp.download.DownloadResponseBody;
-import com.example.smallhttp.upload.ProgressCallBack;
+import com.example.smallhttp.upload.UploadProgressCallBack;
 import com.example.smallhttp.upload.ProgressRequestBody;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -24,13 +23,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -48,7 +45,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -153,7 +149,7 @@ public class RetrofitActivity extends DefaultBaseActivity {
         String path = Environment.getExternalStorageDirectory() + File.separator + name;
         File file = new File(path);
 
-        ProgressRequestBody rq=new ProgressRequestBody(file, MediaType.parse("image/*"), new ProgressCallBack() {
+        ProgressRequestBody rq=new ProgressRequestBody(file, MediaType.parse("image/*"), new UploadProgressCallBack() {
             @Override
             public void updateProgress(long total, long remain,boolean isCompelte) {
                 Log.i("upload", (Looper.getMainLooper()==Looper.myLooper())+"");
@@ -218,7 +214,7 @@ public class RetrofitActivity extends DefaultBaseActivity {
                     @Override
                     public okhttp3.Response intercept(Chain chain) throws IOException {
                         okhttp3.Response response = chain.proceed(chain.request());
-                        return response.newBuilder().body(new DownloadResponseBody(response.body(), new ProgressCallBack() {
+                        return response.newBuilder().body(new DownloadResponseBody(response.body(), new UploadProgressCallBack() {
                             @Override
                             public void updateProgress(long total, long remain, boolean isComplete) {
                                 Log.i("upload",Thread.currentThread().getName()+"--->"+total+"--->"+remain+"-->"+isComplete);

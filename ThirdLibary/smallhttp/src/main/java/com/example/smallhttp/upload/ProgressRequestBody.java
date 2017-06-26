@@ -21,16 +21,16 @@ import okio.Source;
  */
 
 public class ProgressRequestBody extends RequestBody {
-    private ProgressCallBack callBack;
+    private UploadProgressCallBack callBack;
     private File file;
     private String fileName;
     private MediaType contentType;
 
-    public ProgressRequestBody(File file, MediaType type, ProgressCallBack callBack) {
+    public ProgressRequestBody(File file, MediaType type, UploadProgressCallBack callBack) {
         this(file, type, file.getName(), callBack);
     }
 
-    public ProgressRequestBody(File file, MediaType type, String fileName, ProgressCallBack callback) {
+    public ProgressRequestBody(File file, MediaType type, String fileName, UploadProgressCallBack callback) {
         this.contentType = type;
         this.file = file;
         this.fileName = fileName;

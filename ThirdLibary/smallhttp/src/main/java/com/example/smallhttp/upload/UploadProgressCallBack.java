@@ -7,6 +7,6 @@ package com.example.smallhttp.upload;
  * Desc  :
  */
 
-public interface ProgressCallBack {
+public interface UploadProgressCallBack {
     void updateProgress(long total,long remain,boolean isComplete);
 }
