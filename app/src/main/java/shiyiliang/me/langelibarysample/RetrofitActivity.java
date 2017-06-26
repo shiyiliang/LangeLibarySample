@@ -1,13 +1,19 @@
 package shiyiliang.me.langelibarysample;
 
 import android.os.Environment;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.MutableInt;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+import com.example.smallhttp.download.DownloadResponseBody;
+import com.example.smallhttp.upload.ProgressCallBack;
+import com.example.smallhttp.upload.ProgressRequestBody;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -131,7 +137,10 @@ public class RetrofitActivity extends DefaultBaseActivity {
 
     //测试文件的下载
     private void testUpload() {
-        OkHttpClient client = getClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(2, TimeUnit.SECONDS)
+                .addInterceptor(getHttpLoggingInterceptor())
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
@@ -143,28 +152,17 @@ public class RetrofitActivity extends DefaultBaseActivity {
         name = TextUtils.isEmpty(name) ? "1.png" : name;
         String path = Environment.getExternalStorageDirectory() + File.separator + name;
         File file = new File(path);
-        Log.i("upload", file.exists() + "--->" + file.getAbsolutePath());
-        RequestBody fileRQ = RequestBody.create(MediaType.parse("image/*"), file);
 
-        MultipartBody.Part part = MultipartBody.Part.createFormData("picture", file.getName(), fileRQ);
-
-        RequestBody fb = RequestBody.create(MediaType.parse("text/plain"), "hello,retrofit");
-        RequestBody fileTwo = RequestBody.create(MediaType.parse("image/*"), new File(Environment.getExternalStorageDirectory()
-                + file.separator + "original.png"));
-//        Call<ResponseBody> uploadCall = downloadService.uploadFile(fb,part);
-//        Call<ResponseBody> uploadCall = downloadService.uploadFile(body);
-//        Call<ResponseBody> uploadCall = downloadService.uploadOneFile(fileRQ);
-//        Map<String, RequestBody> map = new HashMap<>();
-//        map.put("file\"; filename=\""+ file.getName(), fileRQ);
-//        map.put("file\"; filename=\""+ "2.png", fileTwo);
-
-//        Call<ResponseBody> uploadCall = downloadService.uploadFiles(map);
-        MultipartBody.Part two=MultipartBody.Part.createFormData("one","one.png",fileTwo);
-        List<MultipartBody.Part> parts=new ArrayList<>();
-        parts.add(part);
-        parts.add(two);
-
-        Call<ResponseBody> uploadCall = downloadService.uploadFiles(parts);
+        ProgressRequestBody rq=new ProgressRequestBody(file, MediaType.parse("image/*"), new ProgressCallBack() {
+            @Override
+            public void updateProgress(long total, long remain,boolean isCompelte) {
+                Log.i("upload", (Looper.getMainLooper()==Looper.myLooper())+"");
+                etFileName.setText(Thread.currentThread().getName());
+                Log.i("upload",Thread.currentThread().getName()+"-->"+total+"--->"+remain);
+            }
+        });
+        MultipartBody.Part part2=MultipartBody.Part.createFormData("test",file.getName(),rq);
+        Call<ResponseBody> uploadCall = downloadService.uploadOneFile(part2);
         uploadCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -212,17 +210,22 @@ public class RetrofitActivity extends DefaultBaseActivity {
         Toast.makeText(mContext, "开始下载", Toast.LENGTH_LONG).show();
         String baseUrl = "https://github.com/shiyiliang/AndroidSourceCodeAnalyse/archive/";
 
-        HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                Log.i("demo", message);
-            }
-        });
-
+        HttpLoggingInterceptor logger = getHttpLoggingInterceptor();
         logger.setLevel(HttpLoggingInterceptor.Level.BASIC);
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
-//                .addNetworkInterceptor(new RetryIntercepter(2))
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                        okhttp3.Response response = chain.proceed(chain.request());
+                        return response.newBuilder().body(new DownloadResponseBody(response.body(), new ProgressCallBack() {
+                            @Override
+                            public void updateProgress(long total, long remain, boolean isComplete) {
+                                Log.i("upload",Thread.currentThread().getName()+"--->"+total+"--->"+remain+"-->"+isComplete);
+                            }
+                        })).build();
+                    }
+                })
                 .addInterceptor(logger)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
@@ -264,7 +267,6 @@ public class RetrofitActivity extends DefaultBaseActivity {
             while ((len = inputStream.read(buffer)) != -1) {
                 downloadCount += len;
                 out.write(buffer, 0, len);
-
                 System.out.println("已经下载了---》" + downloadCount);
                 if (downloadCount == total) {
                     Log.i("demo", "下载完了");
@@ -322,7 +324,7 @@ public class RetrofitActivity extends DefaultBaseActivity {
         //如果@Part("name") RequestBody body在上传文件时，可以用，但是无法上传成功，当做参数处理
         @Multipart
         @POST("upload")
-        Call<ResponseBody> uploadOneFile(@Part("file") RequestBody file);
+        Call<ResponseBody> uploadOneFile(@Part MultipartBody.Part file);
 
         @Multipart
         @POST("upload")
