@@ -16,6 +16,7 @@ import butterknife.OnClick;
 import shiyiliang.me.baselibary.base.BaseActivity;
 import shiyiliang.me.baselibary.base.DefaultBaseActivity;
 import shiyiliang.me.baselibary.util.NetworkUtil;
+import shiyiliang.me.langelibarysample.news.NewMainActivity;
 
 public class MainActivity extends DefaultBaseActivity {
     @BindView(R.id.two)
@@ -35,6 +36,10 @@ public class MainActivity extends DefaultBaseActivity {
         startActivity(new Intent(mContext, RetrofitActivity.class));
     }
 
+    @OnClick(R.id.news)
+    void news(){
+        startActivity(new Intent(mContext, NewMainActivity.class));
+    }
     @Override
     protected int getLayoutID() {
         return R.layout.activity_main;

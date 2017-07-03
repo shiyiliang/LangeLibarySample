@@ -28,5 +28,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="retrofit大文件下载" />
+    <Button
+        android:id="@+id/news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="新闻app" />
 
 </LinearLayout>
