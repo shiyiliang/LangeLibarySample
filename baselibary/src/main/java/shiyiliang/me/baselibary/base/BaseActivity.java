@@ -3,6 +3,7 @@ package shiyiliang.me.baselibary.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +27,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutID());
+
+        //设置是否显示状态栏
+        if(!isShowActionBar()){
+            ActionBar supportActionBar = this.getSupportActionBar();
+            if(supportActionBar!=null){
+                supportActionBar.hide();
+            }
+        }
+
         this.mContext = this;
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
@@ -35,6 +45,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    protected boolean isShowActionBar(){
+        return false;
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void listenNetworkStatueChange(NetworkStatueEvent event) {

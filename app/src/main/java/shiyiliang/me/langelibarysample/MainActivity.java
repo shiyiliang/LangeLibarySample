@@ -16,37 +16,45 @@ import butterknife.OnClick;
 import shiyiliang.me.baselibary.base.BaseActivity;
 import shiyiliang.me.baselibary.base.DefaultBaseActivity;
 import shiyiliang.me.baselibary.util.NetworkUtil;
+import shiyiliang.me.baselibary.view.CustomTitleBar;
 import shiyiliang.me.langelibarysample.news.NewMainActivity;
 
 public class MainActivity extends DefaultBaseActivity {
     @BindView(R.id.two)
     Button two;
+    @BindView(R.id.title)
+    CustomTitleBar mCustomTitleBar;
 
     @OnClick(R.id.two)
     void two() {
         System.out.println(two.getText().toString());
         startActivity(new Intent(mContext, SwipLayoutActivity.class));
     }
+
     @OnClick(R.id.three)
-    void three(){
+    void three() {
         startActivity(new Intent(mContext, PopupWindowActivity.class));
     }
+
     @OnClick(R.id.four)
-    void four(){
+    void four() {
         startActivity(new Intent(mContext, RetrofitActivity.class));
     }
 
     @OnClick(R.id.news)
-    void news(){
+    void news() {
         startActivity(new Intent(mContext, NewMainActivity.class));
     }
+
     @Override
     protected int getLayoutID() {
         return R.layout.activity_main;
     }
 
+
     @Override
     protected void init() {
+
     }
 
     @Override

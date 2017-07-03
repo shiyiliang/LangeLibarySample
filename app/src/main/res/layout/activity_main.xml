@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context="shiyiliang.me.langelibarysample.MainActivity">
 
+    <shiyiliang.me.baselibary.view.CustomTitleBar
+        android:id="@+id/title"
+        app:leftTitle="返回"
+        app:rightTitle="确定"
+        app:middleTitle="应用结合"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </shiyiliang.me.baselibary.view.CustomTitleBar>
     <Button
         android:id="@+id/one"
         android:layout_width="match_parent"

@@ -19,8 +19,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".base.TitleBarBaseActivity" />
-        <activity android:name=".base.TitleBarActivity"></activity>
+        <activity android:name=".base.WebViewActivity"></activity>
     </application>
 
 </manifest>
