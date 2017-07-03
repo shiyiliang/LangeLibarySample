@@ -7,15 +7,23 @@
     android:orientation="vertical"
     tools:context="shiyiliang.me.langelibarysample.MainActivity">
 
-    <shiyiliang.me.baselibary.view.CustomTitleBar
+    <shiyiliang.me.baselibary.view.titlebar.CustomTitleBar
         android:id="@+id/title"
-        app:leftTitle="返回"
-        app:rightTitle="确定"
-        app:middleTitle="应用结合"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:leftTitle="返回"
+        app:middleTitle="应用结合"
+        app:rightImage="@drawable/ic_launcher"
+        app:rightImage2="@drawable/ic_launcher"
+        app:rightTitle="确定"></shiyiliang.me.baselibary.view.titlebar.CustomTitleBar>
 
-    </shiyiliang.me.baselibary.view.CustomTitleBar>
+    <shiyiliang.me.baselibary.view.textview.CustomTextView
+        android:id="@+id/ctvTestClick"
+        android:layout_width="wrap_content"
+        android:drawableLeft="@drawable/ic_launcher"
+        android:layout_height="wrap_content"
+        android:text="测试点击事件" />
+
     <Button
         android:id="@+id/one"
         android:layout_width="match_parent"
@@ -32,11 +40,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="测试popupwindow" />
+
     <Button
         android:id="@+id/four"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="retrofit大文件下载" />
+
     <Button
         android:id="@+id/news"
         android:layout_width="match_parent"

@@ -3,14 +3,17 @@ package shiyiliang.me.baselibary.view.textview;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import shiyiliang.me.baselibary.util.RxToast;
 
 /**
  * Author: shiyiliang
  * Blog  : http://shiyiliang.cn
  * Time  : 2017-07-03
- * Desc  :
+ * Desc  : 自定义的drawable点击事件
  */
 
 public class CustomTextView extends android.support.v7.widget.AppCompatTextView {
@@ -64,9 +67,10 @@ public class CustomTextView extends android.support.v7.widget.AppCompatTextView 
                 }
                 if (mLeftListener != null) {
                     Drawable drawableLeft = getCompoundDrawables()[DRAWABLE_LEFT];
-                    if (drawableLeft != null && event.getRawX() <= (getLeft() + drawableLeft.getBounds().width()))
+                    if (drawableLeft != null && event.getRawX() <= (getLeft() + drawableLeft.getBounds().width())) {
                         mLeftListener.onDrawableLeftClick(this);
-                    return true;
+                        return true;
+                    }
                 }
                 break;
         }

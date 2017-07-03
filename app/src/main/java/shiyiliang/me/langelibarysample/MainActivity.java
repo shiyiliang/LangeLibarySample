@@ -1,22 +1,16 @@
 package shiyiliang.me.langelibarysample;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.Network;
-
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import shiyiliang.me.baselibary.base.BaseActivity;
 import shiyiliang.me.baselibary.base.DefaultBaseActivity;
-import shiyiliang.me.baselibary.util.NetworkUtil;
-import shiyiliang.me.baselibary.view.CustomTitleBar;
+import shiyiliang.me.baselibary.util.RxToast;
+import shiyiliang.me.baselibary.view.titlebar.CustomTitleBar;
+import shiyiliang.me.baselibary.view.textview.CustomTextView;
 import shiyiliang.me.langelibarysample.news.NewMainActivity;
 
 public class MainActivity extends DefaultBaseActivity {
@@ -24,6 +18,9 @@ public class MainActivity extends DefaultBaseActivity {
     Button two;
     @BindView(R.id.title)
     CustomTitleBar mCustomTitleBar;
+
+    @BindView(R.id.ctvTestClick)
+    CustomTextView customTextView;
 
     @OnClick(R.id.two)
     void two() {
@@ -46,6 +43,7 @@ public class MainActivity extends DefaultBaseActivity {
         startActivity(new Intent(mContext, NewMainActivity.class));
     }
 
+
     @Override
     protected int getLayoutID() {
         return R.layout.activity_main;
@@ -54,7 +52,61 @@ public class MainActivity extends DefaultBaseActivity {
 
     @Override
     protected void init() {
+        initTitleBar();
+    }
 
+    private void initTitleBar() {
+        customTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RxToast.toast(mContext, "onClick");
+            }
+        });
+        customTextView.setDrawableLeftListener(new CustomTextView.DrawableLeftListener() {
+            @Override
+            public void onDrawableLeftClick(View view) {
+                RxToast.toast(mContext, "onDrawableLeftClick");
+            }
+        });
+//        customTextView.setDrawableRightListener(new CustomTextView.DrawableRightListener() {
+//            @Override
+//            public void onDrawableRightClick(View view) {
+//                RxToast.toast(mContext, "onDrawableRightClick");
+//            }
+//        });
+
+        mCustomTitleBar.setTitleClickListener(new CustomTitleBar.TitleClickListener() {
+            @Override
+            public void onLeftClick() {
+                RxToast.toast(mContext, "onleftclick");
+            }
+
+            @Override
+            public void onLeftButton1Click() {
+                RxToast.toast(mContext, "onLeftButton1Click");
+            }
+
+            @Override
+            public void onLeftButton2Click() {
+                RxToast.toast(mContext, "onLeftButton2Click");
+
+            }
+
+            @Override
+            public void onRightClick() {
+                RxToast.toast(mContext, "onRightClick");
+            }
+
+            @Override
+            public void onRightButton1Click() {
+                RxToast.toast(mContext, "onRightButton1Click");
+            }
+
+            @Override
+            public void onRightButton2Click() {
+                RxToast.toast(mContext, "onRightButton2Click");
+            }
+        });
     }
 
     @Override

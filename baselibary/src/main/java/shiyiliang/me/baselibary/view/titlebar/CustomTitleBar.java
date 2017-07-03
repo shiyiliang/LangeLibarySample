@@ -1,4 +1,4 @@
-package shiyiliang.me.baselibary.view;
+package shiyiliang.me.baselibary.view.titlebar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,8 +12,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import shiyiliang.me.baselibary.R;
 import shiyiliang.me.baselibary.util.DensityUtil;
+import shiyiliang.me.baselibary.util.RxToast;
 import shiyiliang.me.baselibary.view.textview.CustomTextView;
 
 /**
@@ -23,9 +26,7 @@ import shiyiliang.me.baselibary.view.textview.CustomTextView;
  * Desc  :
  */
 
-public class CustomTitleBar extends RelativeLayout implements View.OnClickListener {
-
-
+public class CustomTitleBar extends RelativeLayout{
     private String leftTitle;
     private String middleTitle;
     private String rightTitle;
@@ -38,8 +39,8 @@ public class CustomTitleBar extends RelativeLayout implements View.OnClickListen
     private float rightTextSize;
     private float middleTextSize;
 
-    private TextView tvLeft;
-    private TextView tvMiddle;
+    private CustomTextView tvLeft;
+    private CustomTextView tvMiddle;
     private CustomTextView tvRight;
 
     private int leftImage;
@@ -67,12 +68,32 @@ public class CustomTitleBar extends RelativeLayout implements View.OnClickListen
 
         LayoutInflater.from(getContext()).inflate(R.layout.base_title_bar, this);
 
-        tvLeft = (TextView) findViewById(R.id.tvLeftTitle);
-        tvLeft.setOnClickListener(this);
-        tvMiddle = (TextView) findViewById(R.id.tvMiddleTitle);
-        tvMiddle.setOnClickListener(this);
+        tvLeft = (CustomTextView) findViewById(R.id.tvLeftTitle);
+        tvLeft.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null!=listener){
+                    listener.onLeftClick();
+                }
+            }
+        });
+        tvMiddle = (CustomTextView) findViewById(R.id.tvMiddleTitle);
+        tvMiddle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         tvRight = (CustomTextView) findViewById(R.id.tvRightTitle);
-        tvRight.setOnClickListener(this);
+        tvRight.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null!=listener){
+                    listener.onRightClick();
+                }
+            }
+        });
 
 
         leftTitle = array.getString(R.styleable.CustomTitleBar_leftTitle);
@@ -80,7 +101,7 @@ public class CustomTitleBar extends RelativeLayout implements View.OnClickListen
         rightTitle = array.getString(R.styleable.CustomTitleBar_rightTitle);
 
         leftTextColor = array.getColor(R.styleable.CustomTitleBar_leftTextColor, Color.GRAY);
-        middleTextColor = array.getColor(R.styleable.CustomTitleBar_middleTextColor, Color.TRANSPARENT);
+        middleTextColor = array.getColor(R.styleable.CustomTitleBar_middleTextColor, Color.GRAY);
         rightTextColor = array.getColor(R.styleable.CustomTitleBar_rightTextColor, Color.GRAY);
 
         leftImage = array.getResourceId(R.styleable.CustomTitleBar_leftImage, 0);
@@ -112,6 +133,18 @@ public class CustomTitleBar extends RelativeLayout implements View.OnClickListen
         tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, rightTextSize);
         tvMiddle.setTextSize(TypedValue.COMPLEX_UNIT_PX, middleTextSize);
 
+        tvLeft.setDrawableLeftListener(new CustomTextView.DrawableLeftListener() {
+            @Override
+            public void onDrawableLeftClick(View view) {
+                listener.onLeftButton1Click();
+            }
+        });
+        tvLeft.setDrawableRightListener(new CustomTextView.DrawableRightListener() {
+            @Override
+            public void onDrawableRightClick(View view) {
+                listener.onLeftButton2Click();
+            }
+        });
 
         tvRight.setDrawableLeftListener(new CustomTextView.DrawableLeftListener() {
             @Override
@@ -214,21 +247,6 @@ public class CustomTitleBar extends RelativeLayout implements View.OnClickListen
         tvRight.setCompoundDrawables(drawable1, null, drawable2, null);
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.tvLeftTitle) {
-            if (listener != null) {
-                listener.onLeftClick();
-            }
-
-        } else if (i == R.id.tvRightTitle) {
-            if (listener != null) {
-                listener.onRightClick();
-            }
-
-        }
-    }
 
     public void setTitleClickListener(TitleClickListener listener) {
         this.listener = listener;
@@ -238,6 +256,10 @@ public class CustomTitleBar extends RelativeLayout implements View.OnClickListen
     public interface TitleClickListener {
 
         void onLeftClick();
+
+        void onLeftButton1Click();
+
+        void onLeftButton2Click();
 
         void onRightClick();
 

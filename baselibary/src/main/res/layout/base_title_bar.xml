@@ -4,29 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="48dp">
 
-    <CustomTextView
+    <shiyiliang.me.baselibary.view.textview.CustomTextView
         android:id="@+id/tvLeftTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
         android:gravity="center"
-        android:textColor="@android:color/white"
         android:visibility="visible" />
 
-    <CustomTextView
+    <shiyiliang.me.baselibary.view.textview.CustomTextView
         android:id="@+id/tvMiddleTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
         android:gravity="center"
-        android:textColor="@android:color/white"
         android:visibility="visible" />
 
-    <CustomTextView
+    <shiyiliang.me.baselibary.view.textview.CustomTextView
         android:id="@+id/tvRightTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +32,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
         android:gravity="center"
-        android:textColor="@android:color/white"
         android:visibility="visible" />
 
 </RelativeLayout>

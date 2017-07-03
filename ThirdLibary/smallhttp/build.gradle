@@ -38,7 +38,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     //rxlifecycle
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+//    compile 'com.trello.rxlifecycle:rxlifecycle:2.1.0'
+//    compile 'com.trello.rxlifecycle:rxlifecycle-components:2.1.0'
 
 }

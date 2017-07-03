@@ -4,7 +4,6 @@ import com.example.smallhttp.bean.HttpResult;
 import com.example.smallhttp.exception.SmallHttpException;
 
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
