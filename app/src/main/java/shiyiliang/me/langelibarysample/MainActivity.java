@@ -8,6 +8,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import shiyiliang.me.baselibary.base.DefaultBaseActivity;
+import shiyiliang.me.baselibary.base.WebViewActivity;
 import shiyiliang.me.baselibary.util.RxToast;
 import shiyiliang.me.baselibary.view.titlebar.CustomTitleBar;
 import shiyiliang.me.baselibary.view.textview.CustomTextView;
@@ -40,7 +41,7 @@ public class MainActivity extends DefaultBaseActivity {
 
     @OnClick(R.id.news)
     void news() {
-        startActivity(new Intent(mContext, NewMainActivity.class));
+        startActivity(new Intent(mContext, WebViewActivity.class));
     }
 
 
