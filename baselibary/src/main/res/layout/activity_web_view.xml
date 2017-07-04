@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_web"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,8 +16,5 @@
         app:leftTextColor="@color/white"
         app:leftTitle="@string/web_view_title_left"></shiyiliang.me.baselibary.view.titlebar.CustomTitleBar>
 
-    <WebView
-        android:id="@+id/wv_chrome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+
 </LinearLayout>
