@@ -1,4 +1,4 @@
-package shiyiliang.me.baselibary.base;
+package shiyiliang.me.baselibary.ui.activity;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -18,7 +18,8 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import shiyiliang.me.baselibary.R;
 import shiyiliang.me.baselibary.R2;
-import shiyiliang.me.baselibary.view.LangeWebView;
+import shiyiliang.me.baselibary.base.DefaultBaseActivity;
+import shiyiliang.me.baselibary.view.webview.ProgressWebView;
 import shiyiliang.me.baselibary.view.titlebar.CustomTitleBar;
 
 public class WebViewActivity extends DefaultBaseActivity {
@@ -46,7 +47,7 @@ public class WebViewActivity extends DefaultBaseActivity {
      * 这里为什么这么调用？是为了内存泄露
      */
     private void addWebView() {
-        wvChrome = new LangeWebView(mContext.getApplicationContext());
+        wvChrome = new ProgressWebView(mContext.getApplicationContext());
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         wvChrome.setLayoutParams(params);
 
@@ -55,9 +56,6 @@ public class WebViewActivity extends DefaultBaseActivity {
 
     private void initWebView() {
         initWebViewSetting();
-        wvChrome.setWebChromeClient(new DefaultWebChromeClient());
-        wvChrome.setWebViewClient(new DefaultWebViewClient());
-
         wvChrome.loadUrl("http://www.baidu.com");
     }
 
@@ -153,69 +151,5 @@ public class WebViewActivity extends DefaultBaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    //显示加载页面
-    protected void showDialog() {
-
-    }
-
-    //关闭加载页面
-    protected void closeDialog() {
-
-    }
-
-    /**
-     * 辅助 WebView 处理 Javascript 的对话框,网站图标,网站标题等等
-     */
-    class DefaultWebChromeClient extends WebChromeClient {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-
-        }
-
-        @Override
-        public void onReceivedTitle(WebView view, String title) {
-
-        }
-    }
-
-    /**
-     * WebViewClient就是帮助WebView处理各种通知、请求事件的
-     */
-    class DefaultWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            //显示开始加载页面
-
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            //加载结束页面
-
-        }
-
-        @Override
-        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-            super.onReceivedError(view, request, error);
-        }
-
-        @Override
-        public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-            super.onReceivedHttpError(view, request, errorResponse);
-        }
-
-        //webView默认是不处理https请求的，页面显示空白
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            handler.proceed();
-        }
     }
 }

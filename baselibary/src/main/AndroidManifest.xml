@@ -19,7 +19,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".base.WebViewActivity"></activity>
+        <activity android:name=".ui.activity.WebViewActivity"></activity>
     </application>
 
 </manifest>
