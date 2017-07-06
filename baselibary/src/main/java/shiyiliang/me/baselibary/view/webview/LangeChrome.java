@@ -11,10 +11,11 @@ import android.webkit.WebView;
 
 public class LangeChrome {
 
+
     public static class Builder {
 
 
-        public ProgressWebView build() {
+        public LangeChrome build() {
 
             return null;
         }

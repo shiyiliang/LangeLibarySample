@@ -8,9 +8,9 @@
         android:id="@+id/tvLeftTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
         android:gravity="center"
         android:visibility="visible" />
@@ -22,7 +22,10 @@
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLength="20"
+        android:maxLines="1"
         android:visibility="visible" />
 
     <shiyiliang.me.baselibary.view.textview.CustomTextView

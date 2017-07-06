@@ -5,16 +5,16 @@
     android:id="@+id/ll_web"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="shiyiliang.me.baselibary.base.WebViewActivity">
+    android:orientation="vertical">
 
     <shiyiliang.me.baselibary.view.titlebar.CustomTitleBar
         android:id="@+id/ctb_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
+        app:leftImage="@drawable/ic_left_arrow"
         app:leftTextColor="@color/white"
-        app:leftTitle="@string/web_view_title_left"></shiyiliang.me.baselibary.view.titlebar.CustomTitleBar>
+        app:middleTextColor="@color/white"></shiyiliang.me.baselibary.view.titlebar.CustomTitleBar>
 
 
 </LinearLayout>

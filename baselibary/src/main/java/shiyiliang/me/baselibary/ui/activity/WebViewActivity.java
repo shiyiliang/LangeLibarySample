@@ -19,6 +19,7 @@ import butterknife.BindView;
 import shiyiliang.me.baselibary.R;
 import shiyiliang.me.baselibary.R2;
 import shiyiliang.me.baselibary.base.DefaultBaseActivity;
+import shiyiliang.me.baselibary.view.titlebar.DefaultDrawableListener;
 import shiyiliang.me.baselibary.view.webview.ProgressWebView;
 import shiyiliang.me.baselibary.view.titlebar.CustomTitleBar;
 
@@ -29,7 +30,7 @@ public class WebViewActivity extends DefaultBaseActivity {
     @BindView(R2.id.ll_web)
     LinearLayout llWeb;
 
-    WebView wvChrome;
+    ProgressWebView wvChrome;
 
     @Override
     protected int getLayoutID() {
@@ -41,6 +42,23 @@ public class WebViewActivity extends DefaultBaseActivity {
     protected void init() {
         addWebView();
         initWebView();
+
+        initTitleBar();
+    }
+
+    private void initTitleBar() {
+        ctbTitleBar.setTitleClickListener(new DefaultDrawableListener() {
+            @Override
+            public void onLeftButton1Click() {
+                mContext.finish();
+            }
+        });
+        wvChrome.addTitleLoadComplete(new ProgressWebView.TitleLoadCompleteCallback() {
+            @Override
+            public void receiveTitle(String title) {
+                ctbTitleBar.setMiddleTitle(title);
+            }
+        });
     }
 
     /**
@@ -56,7 +74,7 @@ public class WebViewActivity extends DefaultBaseActivity {
 
     private void initWebView() {
         initWebViewSetting();
-        wvChrome.loadUrl("http://www.baidu.com");
+        wvChrome.loadUrl("https://github.com/square/leakcanary");
     }
 
     private void initWebViewSetting() {
