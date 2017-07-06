@@ -26,6 +26,10 @@ import android.widget.ProgressBar;
 
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import shiyiliang.me.baselibary.R;
 import shiyiliang.me.baselibary.ui.activity.ImageShowActivity;
@@ -60,6 +64,8 @@ public class ProgressWebView extends WebView {
     private CustomTitleBar titleBar;
     private TitleLoadCompleteCallback titleLoadCompleteCallback;
     private boolean isImageClick = true;
+    private boolean isGetAllImage = true;
+    private ArrayList<String> allImageUrls;
 
     public ProgressWebView(Context context) {
         super(context);
@@ -145,7 +151,7 @@ public class ProgressWebView extends WebView {
             } else {
                 packageMessage(UPDATE_PROGRESS, newProgress);
             }
-            Log.i("webview", "进度->" + newProgress);
+//            Log.i("webview", "进度->" + newProgress);
         }
 
         @Override
@@ -202,17 +208,18 @@ public class ProgressWebView extends WebView {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //显示开始加载页面
-            System.out.println("开始了");
             Log.i("webview", "开始了");
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             //加载结束页面
-            System.out.println("结束了");
             Log.i("webview", "结束了");
             if (isImageClick) {
                 addImageClickListner(view);
+            }
+            if (isGetAllImage) {
+                parseHtml(view);
             }
         }
 
@@ -233,6 +240,12 @@ public class ProgressWebView extends WebView {
         }
     }
 
+    private void parseHtml(WebView view) {
+        String js = "javascript:window.connect.getHtmlContent('<head>'+"
+                + "document.getElementsByTagName('html')[0].innerHTML+'</head>');";
+        view.loadUrl(js);
+    }
+
     private void addImageClickListner(WebView view) {
         view.getSettings().setJavaScriptEnabled(true);
         String imgJS = "javascript:(function(){" +
@@ -251,6 +264,10 @@ public class ProgressWebView extends WebView {
 
     // js通信接口
     public class JavascriptInterface {
+        // 获取 img 标签正则
+        private static final String IMAGE_URL_TAG = "<img.*src=(.*?)[^>]*?>";
+        // 获取 src 路径的正则
+        private static final String IMAGE_URL_CONTENT = "http(s?):\"?(.*?)(\"|>|\\s+)";
 
         private Context context;
 
@@ -264,8 +281,37 @@ public class ProgressWebView extends WebView {
             Intent intent = new Intent();
             intent.setClass(getContext(), ImageShowActivity.class);
             intent.putExtra("ImageUrl", img);
+            intent.putStringArrayListExtra("AllImageUrl",allImageUrls);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getContext().startActivity(intent);
+        }
+
+        @android.webkit.JavascriptInterface
+        public void getHtmlContent(String html) {
+            allImageUrls = (ArrayList<String>) getAllImageUrlFromHtml(html);
+        }
+
+        private List<String> getAllImageUrlFromHtml(String html) {
+            Matcher matcher = Pattern.compile(IMAGE_URL_TAG).matcher(html);
+            List<String> listImgUrl = new ArrayList<String>();
+            while (matcher.find()) {
+                listImgUrl.add(matcher.group());
+            }
+            //从图片对应的地址对象中解析出 src 标签对应的内容
+            List<String> urls = getAllImageUrlFormSrcObject(listImgUrl);
+            return urls;
+        }
+
+        private List<String> getAllImageUrlFormSrcObject(List<String> listImgUrl) {
+            List<String> urls=new ArrayList<>();
+
+            for (String image : listImgUrl) {
+                Matcher matcher = Pattern.compile(IMAGE_URL_CONTENT).matcher(image);
+                while (matcher.find()) {
+                    urls.add(matcher.group().substring(0, matcher.group().length() - 1));
+                }
+            }
+            return urls;
         }
     }
 }
