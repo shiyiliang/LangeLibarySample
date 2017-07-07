@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +22,7 @@
         </activity>
         <activity android:name=".SwipLayoutActivity" />
         <activity android:name=".PopupWindowActivity" />
-        <activity android:name=".RetrofitActivity" />
+        <activity android:name=".RetrofitActivity" android:theme="@style/Transparent"/>
         <activity android:name=".news.NewMainActivity"></activity>
     </application>
 
